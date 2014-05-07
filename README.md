@@ -1,7 +1,7 @@
 vedo-cli-classifier
 ===================
 
-A CLI utility to classify DataSift line delimited JSON, and output a JSON file ready to loaded in to the classifier.
+A CLI utility to classify DataSift line delimited JSON, and output a JSON file ready to loaded in to the classifier: https://github.com/datasift/vedo-datascience-toolkit
 
 Edit ```config.json``` to setup the available CLI options and corresponding label.
 
