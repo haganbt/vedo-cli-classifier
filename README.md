@@ -10,3 +10,7 @@ Run pointing to a line delimited JSON file: ```node app.json <my_input_json_file
 ```
 {"interaction":{"content":"<interaction_content>","id":<interaction_id>},"label":"<config_label"}
 ```
+
+### todo
+
+ - add a cache so a user can continue, rather than restart
