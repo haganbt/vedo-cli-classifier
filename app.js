@@ -3,31 +3,27 @@ if (process.argv.length !== 3) {
     process.exit(1);
 }
 
-
 var drop_retweets = true;
 var drop_interactions_with_links = true;
 var file = process.argv[2];
-var count = 0;
 
 var fs = require('fs')
     , byline = require('byline')
     , stream = fs.createReadStream(file)
     , stream = byline.createStream(stream)
+    , read = require("read")
+    , count = 1
+    , to_classify = []
     ;
 
-var read = require("read");
-//var stdin = process.stdin, stdout = process.stdout;
-var to_classify = [];
 
-
-
+// config file
 try {
     var config = JSON.parse(fs.readFileSync('config.json'));
 }
 catch (err) {
     throw new Error('Error parsing JSON config file.')
 }
-
 
 var optionsString = '';
 var optionKeys = [];
@@ -39,12 +35,14 @@ for (var key in config.options) {
 }
 optionsString = optionsString.substring(0, optionsString.length - 2);
 
+
+// load data
 stream.on('data', function(line) {
 
     try{
         var data = JSON.parse(line);
     } catch (e) {
-        //console.log('ERROR: Unable to parse JSON' + e);
+        console.log('ERROR: Unable to parse JSON' + e);
         return;
     }
 
@@ -67,25 +65,23 @@ stream.on('data', function(line) {
         }
     }
 
-    to_classify.push(data.interaction.content);
+    to_classify.push([data.interaction.content, data.interaction.id]);
 });
 
 
 function showLine(i){
 
-    if (!to_classify[i]){
+    if (to_classify[i] === undefined){
         console.log("\n\nClassification complete.")
         process.exit(-1);
     }
 
-    read({prompt:  '--> "' + to_classify[i] + '"' + "\n " + optionsString + ", e(x)it: " }, function (err, selection) {
+    read({prompt:  '--> "' + to_classify[i][0] + '"' + "\n " + optionsString + ", e(x)it: " }, function (err, selection) {
 
         if (selection == "x"){ process.exit(-1); }
 
-        interaction = to_classify[i].toString().trim();
-
         if (optionKeys.indexOf(selection) > -1) {
-            save(interaction, config.options[selection]);
+            save(to_classify[i][0].toString().trim(), to_classify[i][1].toString(), config.options[selection]);
             delete to_classify[i]; // todo: should cleanup array really
             showLine(++i);
         } else {
@@ -95,12 +91,11 @@ function showLine(i){
 }
 
 
-function save(content, label) {
-    fs.appendFile(file +'_outout.json', '{"interaction":{"content":"' + content + '","id":2},"label":"' + label + '"}' + "\n", function(err) {
+function save(content,id,label) {
+    fs.appendFile(file +'_outout.json', '{"interaction":{"content":"' + content + '","id":' + id + '},"label":"' + label + '"}' + "\n", function(err) {
         if (err) {
             return console.log(err);
         }
-        return true;
     });
 }
 
