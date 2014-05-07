@@ -1,8 +1,12 @@
 vedo-cli-classifier
 ===================
 
-Classify DataSift line delimited JSON files.
+A CLI utility to classify DataSift line delimited JSON, and output a JSON file ready to loaded in to the classifier.
 
-Edit config.json and setup the available options and corresponding label.
+Edit ```config.json``` to setup the available CLI options and corresponding label.
 
-Run pointing to a line delimited JSON file: ```node app.json <my_input_json_file>```
+Run pointing to a line delimited JSON file: ```node app.json <my_input_json_file>``` and the script will output a JSON file with the following format:
+
+```
+{"interaction":{"content":"<interaction_content>","id":<interaction_id>},"label":"<config_label"}
+```
