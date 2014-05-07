@@ -1,0 +1,27 @@
+{
+  "name": "vedo-cli-classifier",
+  "version": "0.0.0",
+  "description": "Classify line delimited JSON",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/haganbt/vedo-cli-classifier.git"
+  },
+  "keywords": [
+    "datasift",
+    "vedo"
+  ],
+  "author": "Ben",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/haganbt/vedo-cli-classifier/issues"
+  },
+  "homepage": "https://github.com/haganbt/vedo-cli-classifier",
+  "dependencies": {
+    "byline": "~4.1.1",
+    "read": "~1.0.5"
+  }
+}
